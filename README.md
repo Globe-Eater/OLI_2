@@ -1,2 +1,3 @@
 # OLI_2
-An attempt at restructuring the Oklahoma Landmarks Inventory
+<p>An attempt at reconstructing the Oklahoma Landmarks Inventory using the python Flask framework.</p>
+
