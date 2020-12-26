@@ -1,6 +1,5 @@
 from flask import current_app, request, url_for
-from flask_login import UserMixin, AnoymousUserMixin
-from app.exepctions import ValidationError
+from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 
 class Premission:
@@ -11,8 +10,8 @@ class Premission:
     ADMIN = 16
 
 class Role(db.Model):
-    __tablename__ == 'roles'
-    id = db.Column(db.Integare, primary_key=True)
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     default = db.Column(db.Boolean, default=False, index=True)
     premissions = db.Column(db.Integer)
@@ -26,9 +25,9 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': [Permission.SEARCH, Permission.ENTRY]
+            'User': [Permission.SEARCH, Permission.ENTRY],
             'Moderator': [Permission.SEARCH, Permission.ENTRY, Permission.EDIT,
-                          Permission.EDIT, Permission.MODERATE]
+                          Permission.EDIT, Permission.MODERATE],
             'Administrator': [Permission.SEARCH, Permission.ENTRY, Permission.EDIT,
                               Permission.EDIT, Permission.MODERATE,
                               Permission.ADMIN]
@@ -50,7 +49,7 @@ class Role(db.Model):
             self.permission += perm
 
     def remove_permission(self, perm):
-        if self.has_permission(perm)
+        if self.has_permission(perm):
             self.permissions -= perm
 
     def reset_permissions(self):
@@ -79,4 +78,3 @@ class hpr(db.Model):
     resname = db.Column(db.String(64))
     address = db.Column(db.String(64))
     city = db.Column(db.String(64))
-    
