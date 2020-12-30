@@ -11,10 +11,10 @@ from ..models import Permission, Role, User
 def index():
     form = SearchForm()
     if form.validate_on_submit():
-        return redirect('query.html')
+        return redirect('/query')
     return render_template('index.html', form=form)
 
-@main.route('/search', methods=['GET', 'POST'])
+@main.route('/query', methods=['GET', 'POST'])
 def search():
     form = QueryForm()
-    return render_template('query.html', form-form)
+    return render_template('query.html', form=form)

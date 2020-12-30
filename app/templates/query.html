@@ -5,14 +5,11 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>To start a search use the buttons below.</h1>
+    <h1>To search fill in the fields and hit submit:</h1>
 </div>
 <form method="POST">
-{{ form.hidden_tag() }}
+{{ form.property }}
 {{ form.submit() }}
 </form>
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-{% endblock %}
