@@ -7,9 +7,6 @@
 <div class="page-header">
     <h1>To search fill in the fields and hit submit:</h1>
 </div>
-<form method="POST">
-{{ form.property }}
-{{ form.submit() }}
-</form>
+{{ wtf.quick_form(form) }}
 {% endblock %}
 
