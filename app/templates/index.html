@@ -7,10 +7,7 @@
 <div class="page-header">
     <h1>To start a search use the buttons below.</h1>
 </div>
-<form method="POST">
-{{ form.hidden_tag() }}
-{{ form.submit() }}
-</form>
+{{ wtf.quick_form(form) }}
 {% endblock %}
 
 {% block scripts %}
