@@ -27,5 +27,5 @@ def test(coverage, test_names):
         sys.exit(subprocess.call(sys.argv))
 
     import unittest
-    if test_names:
-        tests = unittest.TestLoader().loadTestsFromNames(test_names)
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
