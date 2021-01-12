@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import current_app, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, AnonymousUserMixin
+from . import login_manager
 from . import db
 
 class Permission:
@@ -62,6 +63,10 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
@@ -276,3 +281,4 @@ class hpr(db.Model):
     duplicate_check_user = db.Column(db.Float())
     duplicate_check_comments = db.Column(db.String())
     approved_shpo = db.Column(db.Float())
+
