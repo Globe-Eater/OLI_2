@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import current_app, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, AnonymousUserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import login_manager
 from . import db
 
@@ -86,27 +87,17 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(64))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
-    posts = db.relationship('hpr', backref='author', lazy='dynamic')
-    comments = db.relationship('Comment', backref='author', lazy='dynamic')
-
-    @staticmethod
-    def add_self_follows():
-        for user in User.query.all():
-            if not user.is_following(user):
-                user.follow(user)
-                db.session.add(user)
-                db.session.commit()
+    posts = db.relationship('hpr', backref='user', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
-            if self.email == current_app.config['FLASKY_ADMIN']:
+            if self.email == current_app.config['ADMIN']:
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = self.gravatar_hash()
-        self.follow(self)
 
     @property
     def password(self):
@@ -276,6 +267,7 @@ class hpr(db.Model):
     northing = db.Column(db.String())
     p_b_c = db.Column(db.String())
     year_closed = db.Column(db.Float())
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     duplicate_check = db.Column(db.String())
     duplicate_check_date = db.Column(db.String())
     duplicate_check_user = db.Column(db.Float())
