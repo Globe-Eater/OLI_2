@@ -5,6 +5,9 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Login was successful!</h1>
+    <h1>Click a button to select task.</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
 </div>
 {% endblock %}
