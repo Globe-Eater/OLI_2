@@ -11,3 +11,8 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
+class MenuForm(FlaskForm):
+    enter_data = SubmitField('Enter Data')
+    search_data = SubmitField('Search Database')
+    edit_data = SubmitField('Edit Records')
+
