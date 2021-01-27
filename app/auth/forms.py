@@ -16,3 +16,10 @@ class MenuForm(FlaskForm):
     search_data = SubmitField('Search Database')
     edit_data = SubmitField('Edit Records')
 
+class EntryForm(FlaskForm):
+    propname = StringField('Property Name:', validators=[DataRequired()])
+    resname = StringField('Resource Name:')
+    address = StringField('Address:')
+    city  = StringField('City:')
+    vicinity = StringField('Vicinity:')
+
