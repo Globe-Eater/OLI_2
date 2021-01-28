@@ -16,10 +16,16 @@ def index():
 @main.route('/query', methods=['GET', 'POST'])
 def search():
     form = QueryForm()
-    if form.validate_on_submit():
-        return render_template('results.html')
-    return render_template('query.html', form=form)
+    #if form.validate_on_submit():
+    #    results = hpr.query.filter_by(propname=form.property.data)#,
+    #                        #resname=form.resname.data,
+    #                        #address=form.address.data,
+    #                        #city=form.city.data)
+    #    return render_template('query.html', form=form, result=results)
+    all = hpr.query.filter_by(propname='CHEYENNE HISTORIC DISTRICT').all()
+    return render_template('query.html', form=form, result=all)
 
 @main.route('/results')
 def search_results():
+    #query_result = hpr.query.filter(propname=propname).all()
     return render_template('results.html')
