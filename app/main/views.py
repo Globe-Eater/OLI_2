@@ -17,12 +17,13 @@ def index():
 def search():
     form = QueryForm()
     if form.validate_on_submit():
-         post = hpr.query.filter_by(propname=form.property.data)#,
+         posts = hpr.query.filter_by(propname=form.property.data)#,
          flash("Query Submitted.")
+         return render_template('query.html', form=form, posts=posts)
     #                        #resname=form.resname.data,
     #                        #address=form.address.data,
     #                        #city=form.city.data)
-    #    return render_template('query.html', form=form, result=results)
+    
     posts = hpr.query.all()
     return render_template('query.html', form=form, posts=posts)
 
