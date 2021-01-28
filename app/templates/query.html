@@ -8,5 +8,12 @@
     <h1>To search fill in the fields and hit submit:</h1>
 </div>
 {{ wtf.quick_form(form) }}
+<ul class="posts">
+    {% for post in posts %}
+    <li class="post">
+        <div class="post-propname">{{ post.propname }}</div>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}
 
