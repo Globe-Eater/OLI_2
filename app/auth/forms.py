@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
-from ..models import User
+from ..models import User, hpr
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
@@ -15,6 +15,13 @@ class MenuForm(FlaskForm):
     enter_data = SubmitField('Enter Data')
     search_data = SubmitField('Search Database')
     edit_data = SubmitField('Edit Records')
+
+class EditForm(FlaskForm):
+    propname = StringField('Property Name:')
+    resname = StringField('Resource Name:')
+    address = StringField('Address:')
+    city = StringField('City:')
+    submit =  SubmitField('Search')
 
 class EntryForm(FlaskForm):
     propname = StringField('Property Name:', validators=[DataRequired()])
@@ -77,4 +84,4 @@ class EntryForm(FlaskForm):
     northing = StringField('Northing:')
     p_b_c = StringField('Property/Bridge/Cemetary:')
     year_closed = StringField('Year Closed:')
-
+    submit = SubmitField('Submit')

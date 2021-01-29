@@ -3,8 +3,8 @@ from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import auth
 from .. import db
-from ..models import User
-from .forms import LoginForm, MenuForm, EntryForm 
+from ..models import User, hpr
+from .forms import LoginForm, MenuForm, EntryForm, EditForm 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def user_login():
@@ -28,7 +28,12 @@ def logout_user():
 def menu():
     form = MenuForm()
     if form.validate_on_submit():
-        return redirect(url_for('auth.data_entry'))
+        if form.enter_data.data:
+            return redirect(url_for('auth.data_entry'))
+        elif form.search_data.data:
+            return redirect(url_for('main.search'))
+        elif form.edit_data.data:
+            return redirect(url_for('auth.edit_records'))
     return render_template('auth/success.html', form=form)
 
 @auth.route('/record_entry', methods=['GET', 'POST'])
@@ -41,6 +46,18 @@ def data_entry():
         db.session.commit()
     flash('Record Sumbitted.')
     return render_template('auth/entry.html', form=form)
+
+@auth.route('/edit_records', methods=['GET', 'POST'])
+@login_required
+def edit_records():
+    form = EditForm()
+    if form.validate_on_submit():
+        posts = hpr.query.filter_by(propname=form.propname.data, 
+                                   resname=form.resname.data,
+                                   address=form.address.data,
+                                   city=form.city.data)
+        return render_template('auth/edit.html', form=form, posts=posts)
+    return render_template('auth/edit.html', form=form)
 
 @auth.route('/unconfirmed')
 def unconfirmed():
