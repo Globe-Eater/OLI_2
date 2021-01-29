@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}OLI{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -26,7 +26,7 @@
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                <li><a href="{{ url_for('auth.user_login') }}">Log In</a></li>
             </ul>
         </div>
     </div>
