@@ -6,9 +6,9 @@ from ..models import Role, User
 
 class QueryForm(FlaskForm):
     property = StringField('Property name:', validators=[DataRequired()])
-    #resname = StringField('Resource name:', validators=[DataRequired()])
-    #address = StringField('Address: ', validators=[DataRequired()])
-    #city = StringField('City name: ', validators=[DataRequired()])
+    resname = StringField('Resource name:')
+    address = StringField('Address: ')
+    city = StringField('City name: ')
     submit = SubmitField('Submit')
 
 class SearchForm(FlaskForm):
