@@ -12,4 +12,4 @@ class QueryForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class SearchForm(FlaskForm):
-    submit = SubmitField('Sumbit')
+    submit = SubmitField('Search')
