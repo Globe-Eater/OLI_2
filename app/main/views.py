@@ -18,12 +18,11 @@ def search():
     form = QueryForm()
     if form.validate_on_submit():
          posts = hpr.query.filter_by(propname=form.property.data)#,
+             #resname=form.resname.data,
+             #address=form.address.data, 
+             #city=form.city.data)
          flash("Query Submitted.")
          return render_template('query.html', form=form, posts=posts)
-    #                        #resname=form.resname.data,
-    #                        #address=form.address.data,
-    #                        #city=form.city.data)
-    
     posts = hpr.query.all()
     return render_template('query.html', form=form, posts=posts)
 
