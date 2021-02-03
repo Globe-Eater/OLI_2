@@ -112,11 +112,16 @@ def data_entry():
 def edit_records():
     form = EditForm()
     if form.validate_on_submit():
-        posts = hpr.query.filter_by(propname=form.propname.data, 
-                                   resname=form.resname.data,
-                                   address=form.address.data,
-                                   city=form.city.data)
-        return render_template('auth/edit.html', form=form, posts=posts)
+        if form.propname.data:
+             posts = hpr.query.filter_by(propname=form.propname.data)
+        elif form.resname.data:
+             posts = hpr.query.filter_by(resname=form.resname.data)
+        elif form.address.data:
+             posts = hpr.query.filter_by(address=form.address.data)
+        elif form.city.data:
+             posts = hpr.query.filter_by(city=form.city.data)
+        flash("Query Submitted.")
+        return render_template('auth/edit.html', form=form, posts=posts) 
     return render_template('auth/edit.html', form=form)
 
 @auth.route('/unconfirmed')
