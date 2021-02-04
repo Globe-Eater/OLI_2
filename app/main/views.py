@@ -17,7 +17,9 @@ def index():
 def search():
     form = QueryForm()
     if form.validate_on_submit():
-         if form.property.data:
+         if form.object_id.data:
+              posts = hpr.query.filter_by(objectid=form.object_id.data)
+         elif form.property.data:
               posts = hpr.query.filter_by(propname=form.property.data)
          elif form.resname.data:
               posts = hpr.query.filter_by(resname=form.resname.data)
