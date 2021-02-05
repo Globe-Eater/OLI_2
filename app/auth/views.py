@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, \
 from . import auth
 from .. import db
 from ..models import User, hpr
-from .forms import LoginForm, MenuForm, EntryForm, EditForm 
+from .forms import LoginForm, MenuForm, EntryForm, EditForm, UpdateForm 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def user_login():
@@ -110,19 +110,87 @@ def data_entry():
 @auth.route('/edit_records', methods=['GET', 'POST'])
 @login_required
 def edit_records():
-    form = EditForm()
-    if form.validate_on_submit():
-        if form.propname.data:
-             posts = hpr.query.filter_by(propname=form.propname.data)
-        elif form.resname.data:
-             posts = hpr.query.filter_by(resname=form.resname.data)
-        elif form.address.data:
-             posts = hpr.query.filter_by(address=form.address.data)
-        elif form.city.data:
-             posts = hpr.query.filter_by(city=form.city.data)
+    form1 = EditForm()
+    form2 = UpdateForm()
+    if form1.validate_on_submit():
+        if form1.objectid.data:
+             posts = hpr.query.filter_by(objectid=form1.objectid.data)
+        elif form1.propname.data:
+             posts = hpr.query.filter_by(propname=form1.propname.data)
+        elif form1.resname.data:
+             posts = hpr.query.filter_by(resname=form1.resname.data)
+        elif form1.address.data:
+             posts = hpr.query.filter_by(address=form1.address.data)
+        elif form1.city.data:
+             posts = hpr.query.filter_by(city=form1.city.data)
         flash("Query Submitted.")
-        return render_template('auth/edit.html', form=form, posts=posts) 
-    return render_template('auth/edit.html', form=form)
+    # Get Object Id from search.
+    # Once found enable form2 to update record.
+    if form2.validate_on_submit():
+        record = hpr(propname=form2.propname.data,
+             resname=form2.resname.data,
+             address=form2.address.data,
+             city=form2.city.data,
+             vicinity=form2.vicinity.data,
+             countycd=form2.countycd.data,
+             lot=form2.lot.data,
+             block=form2.block.data,
+             platename=form2.platename.data,
+             section=form2.section.data,
+             township=form2.township.data,
+             range=form2.range.data,
+             restype=form2.restype.data,
+             hist_func=form2.hist_func.data,
+             curr_func=form2.curr_func.data,
+             areasg_1=form2.areasg_1.data,
+             areasg_2=form2.areasg_2.data,
+             desc_seg=form2.desc_seg.data,
+             doc_source=form2.doc_source.data,
+             name_prep=form2.name_prep.data,
+             survey_pro=form2.survey_pro.data,
+             projectname=form2.projectname.data,
+             date_prep=form2.date_prep.data,
+             photograph=form2.photograph.data,
+             year=form2.year.data,
+             arch_build=form2.arch_build.data,
+             year_build=form2.year_build.data,
+             orig_site=form2.orig_site.data,
+             datemoved=form2.datemoved.data,
+             fromwhere=form2.fromwhere.data,
+             accessible=form2.accessible.data,
+             arch_style=form2.arch_style.data,
+             other_arch=form2.other_arch.data,
+             foun_mat=form2.foun_mat.data,
+             roof_type=form2.roof_type.data,
+             roof_mat=form2.roof_mat.data,
+             wall_mat_1=form2.wall_mat_1.data,
+             wall_mat_2=form2.wall_mat_2.data,
+             window_typ=form2.window_typ.data,
+             window_mat=form2.window_mat.data,
+             door_typ=form2.door_typ.data,
+             exter_fea=form2.exter_fea.data,
+             inter_fea=form2.inter_fea.data,
+             dec_detail=form2.dec_detail.data,
+             condition=form2.condition.data,
+             des_res=form2.des_res.data,
+             comments=form2.comments.data,
+             placement=form2.placement.data,
+             lonr=form2.lonr.data,
+             continuation=form2.continuation.data,
+             nrdata=form2.nrdata.data,
+             date_updated=form2.date_updated.data,
+             lat=form2.lat.data,
+             long=form2.lon.data,
+             utm_zone=form2.utm_zone.data,
+             easting=form2.easting.data,
+             northing=form2.northing.data,
+             p_b_c=form2.p_b_c.data,
+             year_closed=form2.year_closed.data)
+     # merge objectid record with new info.
+        db.session.merge(record)
+        db.session.commit()
+        return render_template('auth/edit.html', form1=form1, form2=form2, posts=posts) 
+    return render_template('auth/edit.html', form1=form1, form2=form2)
 
 @auth.route('/unconfirmed')
 def unconfirmed():
