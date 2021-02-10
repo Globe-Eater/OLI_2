@@ -11,6 +11,7 @@
     <table>
      <thead>
         <tr>
+           <th>Object ID</th>
            <th>Property Name</th>
            <th>Resource Name</th>
            <th>Address</th>
@@ -21,6 +22,7 @@
      <tbody>
         {% for post in posts %}
            <tr>
+              <td>{{ post.objectid }}</td>
               <td>{{ post.propname }}</td>
               <td>{{ post.resname }}</td>
               <td>{{ post.address }}</td>
