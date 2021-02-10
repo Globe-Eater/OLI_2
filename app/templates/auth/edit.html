@@ -7,17 +7,17 @@
 <div class="page-header">
     <h1>Search for record to edit:</h1>
 </div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form1) }}
+<div >
+    {{ wtf.quick_form(form) }}
     <ul class="posts">
         {% for post in posts %}
         <li class="post">
+            <div <h2> <a class="post-post_id" href="{{ url_for("auth.results", post_id=post.objectid) }}">{{ post.objectid }}</a> </h2></div>
             <div class="post-propname">{{ post.propname }}</div>
             <div class="post-resname">{{ post.resname }}</div>
             <div class="post-address">{{ post.address }}</div>
             <div class="post-city">{{ post.city }}</div>
         {% endfor %}
     </ul>
-    {{ wtf.quick_form(form2) }}
 </div>
 {% endblock %}
