@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}OLI Record{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>OLI Record</h1>
+</div>
+<div >
+    <ul class="posts">
+        <li class="post">
+            <div class="post-post_id">{{ post.objectid }}</div>
+            <div class="post-propname">{{ post.propname }}</div>
+            <div class="post-resname">{{ post.resname }}</div>
+            <div class="post-address">{{ post.address }}</div>
+            <div class="post-city">{{ post.city }}</div>
+    </ul>
+</div>
+{% endblock %}
+
