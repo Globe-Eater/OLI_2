@@ -29,10 +29,9 @@ def search():
               posts = hpr.query.filter_by(city=form.city.data)
          flash("Query Submitted.")
          return render_template('query.html', form=form, posts=posts)
-    posts = hpr.query.all()
-    return render_template('query.html', form=form, posts=posts)
+    return render_template('query.html', form=form)
 
-@main.route('/results')
-def search_results():
-    #query_result = hpr.query.filter(propname=propname).all()
-    return render_template('results.html')
+@main.route('/record<int:post_id>')
+def search_results(post_id):
+    post = hpr.query.get_or_404(post_id)
+    return render_template('record.html', post_id=post.objectid, post=post)
