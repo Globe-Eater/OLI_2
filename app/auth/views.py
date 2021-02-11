@@ -126,10 +126,21 @@ def edit_records():
     return render_template('auth/edit.html', form=form)
 
 
-@auth.route('/result<int:post_id>')
+@auth.route('/result<int:post_id>', methods=['GET', 'POST'])
+@login_required
 def results(post_id):
     post = hpr.query.get_or_404(post_id)
-    return render_template('auth/results.html', post=post)
+    form = EntryForm()
+    if form.validate_on_submit():
+        post.propname = form.propname.data
+        db.session.commit()
+        flash("Record updated.")
+        return redirect(url_for('auth.results', post_id=post.objectid, form=form))
+    elif request.method == 'GET':
+        form.propname.data = post.propname
+        form.resname.data = post.resname
+        form.address.data = post.address
+    return render_template('auth/results.html', post=post, form=form)
 
 @auth.route('/unconfirmed')
 def unconfirmed():
