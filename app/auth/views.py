@@ -126,7 +126,7 @@ def edit_records():
     return render_template('auth/edit.html', form=form)
 
 
-@auth.route('/result<int:post_id>', methods=['GET', 'POST'])
+@auth.route('/result/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def results(post_id):
     post = hpr.query.get_or_404(post_id)
@@ -140,6 +140,56 @@ def results(post_id):
         form.propname.data = post.propname
         form.resname.data = post.resname
         form.address.data = post.address
+        form.vicinity.data = post.vicinity
+        form.countycd.data = post.countycd
+        form.lot.data = post.lot
+        form.block.data = post.block
+        form.platename.data = post.platename
+        form.section.data = post.section
+        form.township.data = post.township
+        form.range.data = post.range
+        form.restype.data = post.restype
+        form.hist_func.data = post.hist_func
+        form.curr_func.data = post.curr_func
+        form.areasg_1.data = post.areasg_1
+        form.areasg_2.data = post.areasg_2
+        form.desc_seg.data = post.desc_seg
+        form.doc_source.data = post.doc_source
+        form.name_prep.data = post.name_prep
+        form.survey_pro.data = post.survey_pro
+        form.projectname.data = post.projectname
+        form.date_prep.data = post.date_prep
+        form.photograph.data = post.photograph
+        form.year.data = post.year
+        form.arch_build.data = post.arch_build
+        form.other_arch.data = post.other_arch
+        form.foun_mat.data = post.foun_mat
+        form.roof_type.data = post.roof_type
+        form.roof_mat.data = post.roof_mat
+        form.wall_mat_1.data = post.wall_mat_1
+        form.wall_mat_2.data = post.wall_mat_2
+        form.window_typ.data = post.window_typ
+        form.window_mat.data = post.window_mat
+        form.door_typ.data = post.door_typ
+        form.exter_fea.data = post.exter_fea
+        form.inter_fea.data = post.inter_fea
+        form.dec_detail.data = post.dec_detail
+        form.condition.data = post.condition
+        form.des_res.data = post.des_res
+        form.comments.data = post.comments
+        form.placement.data = post.placement
+        form.lonr.data = post.lonr
+        form.continuation.data = post.continuation
+        form.nrdata.data = post.nrdata
+        form.date_updated.data = post.date_updated
+        form.lat.data = post.lat
+        form.lon.data = post.long
+        form.utm_zone.data = post.utm_zone
+        form.easting.data = post.easting
+        form.northing.data = post.northing
+        form.p_b_c.data = post.p_b_c
+        form.year_closed.data = post.year_closed
+     
     return render_template('auth/results.html', post=post, form=form)
 
 @auth.route('/unconfirmed')
