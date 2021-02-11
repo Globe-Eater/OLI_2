@@ -133,6 +133,66 @@ def results(post_id):
     form = EntryForm()
     if form.validate_on_submit():
         post.propname = form.propname.data
+        post.resname=form.resname.data
+        post.address=form.address.data
+        post.city=form.city.data
+        post.vicinity=form.vicinity.data
+        post.countycd=form.countycd.data
+        post.lot=form.lot.data
+        post.block=form.block.data
+        post.platename=form.platename.data
+        post.section=form.section.data
+        post.township=form.township.data
+        post.range=form.range.data
+        post.restype=form.restype.data
+        post.hist_func=form.hist_func.data
+        post.curr_func=form.curr_func.data
+        post.areasg_1=form.areasg_1.data
+        post.areasg_2=form.areasg_2.data
+        post.desc_seg=form.desc_seg.data
+        post.doc_source=form.doc_source.data
+        post.name_prep=form.name_prep.data
+        post.survey_pro=form.survey_pro.data
+        post.projectname=form.projectname.data
+        post.date_prep=form.date_prep.data
+        post.photograph=form.photograph.data
+        post.year=form.year.data
+        post.arch_build=form.arch_build.data
+        post.year_build=form.year_build.data
+        post.orig_site=form.orig_site.data
+        post.datemoved=form.datemoved.data
+        post.fromwhere=form.fromwhere.data
+        post.accessible=form.accessible.data
+        post.arch_style=form.arch_style.data
+        post.other_arch=form.other_arch.data
+        post.foun_mat=form.foun_mat.data
+        post.roof_type=form.roof_type.data
+        post.roof_mat=form.roof_mat.data
+        post.wall_mat_1=form.wall_mat_1.data
+        post.wall_mat_2=form.wall_mat_2.data
+        post.window_typ=form.window_typ.data
+        post.window_mat=form.window_mat.data
+        post.door_typ=form.door_typ.data
+        post.exter_fea=form.exter_fea.data
+        post.inter_fea=form.inter_fea.data
+        post.dec_detail=form.dec_detail.data
+        post.condition=form.condition.data
+        post.des_res=form.des_res.data
+        post.comments=form.comments.data
+        post.placement=form.placement.data
+        post.lonr=form.lonr.data
+        post.continuation=form.continuation.data
+        post.nrdata=form.nrdata.data
+        post.date_updated=form.date_updated.data
+        post.lat=form.lat.data
+        post.long=form.lon.data
+        post.utm_zone=form.utm_zone.data
+        post.easting=form.easting.data
+        post.northing=form.northing.data
+        post.p_b_c=form.p_b_c.data
+        post.year_closed=form.year_closed.data
+
+
         db.session.commit()
         flash("Record updated.")
         return redirect(url_for('auth.results', post_id=post.objectid, form=form))
@@ -189,7 +249,6 @@ def results(post_id):
         form.northing.data = post.northing
         form.p_b_c.data = post.p_b_c
         form.year_closed.data = post.year_closed
-     
     return render_template('auth/results.html', post=post, form=form)
 
 @auth.route('/unconfirmed')
