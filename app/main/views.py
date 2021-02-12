@@ -31,7 +31,17 @@ def search():
          return render_template('query.html', form=form, posts=posts)
     return render_template('query.html', form=form)
 
-@main.route('/record<int:post_id>')
+@main.route('/record/<int:post_id>')
 def search_results(post_id):
     post = hpr.query.get_or_404(post_id)
     return render_template('record.html', post_id=post.objectid, post=post)
+
+@main.route('/shutdown')
+def server_shutdown():
+    if not current_app.testing:
+        abort(404)
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+    if not shutdown:
+        abort(500)
+    shutdown()
+    return 'Shutting down...'
