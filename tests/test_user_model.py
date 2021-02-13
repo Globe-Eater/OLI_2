@@ -15,8 +15,33 @@ class UserModelTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    def test_Roles(self):
+        admin_role = Role(name='Administrator')
+        mod_role = Role(name='Moderator')
+        worker_role = Role(name='User')
+        db.session.add_all(admin_role, mod_role, worker_role)
+        db.session.commit()
+        self.assertTrue(admin_role.name == 'Administrator')
+        self.assertTrue(mod_role.name == 'Moderator')
+        self.assertTrue(worker_role == 'User')
+
+    def test_Users(self):
+        admin = User(username='admin', password='cat', role_id=16,\
+                     email='test@example.com', role='Administrator')
+        mod = User(username='mod', password='dog', role_id=8,\
+                   email='mod@example.com', role='Moderator')
+        worky = User(username='worky', password='fish', role_id=4,\
+                     email='worky@example.com', role='User')
+        db.session.add_all(admin, mod, worky)
+        db.session.commit()
+        self.assertTrue(admin.password == 'cat')
+        self.assertTrue(mod.password == 'dog')
+        self.assertTrue(worky.password == 'fish')
+
     def test_password_setter(self):
         u = User(password = 'cat')
+        db.session.add(u)
+        db.session.commit(u)
         self.assertTrue(u.password_hash is not None)
 
     def test_no_password_getter(self):
