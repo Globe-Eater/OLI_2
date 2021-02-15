@@ -2,6 +2,8 @@
 <p> An attempt at reconstructing the Oklahoma Landmarks Inventory using the python Flask framework.</p>
 <p> This website was created based on examples from the Book Flask Web Development by Miguel Grinbery.</p>
 
+![pics](/pics/Home_page.png)
+
 ## Usage
 <p> This web application is designed to allow users to view historical properites publicly via searching the legacy database. Employees and staff will be allowed a login to add, edit, and delete records from the database as they see fit. </p>
 
