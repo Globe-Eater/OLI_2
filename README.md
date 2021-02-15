@@ -11,7 +11,7 @@
 
 ![pics](/pics/Record_display)
 
-!{pics](/pics/Update_Record)
+!{pics](/pics/Update_Page)
 
 ## Setup
 <ol>
