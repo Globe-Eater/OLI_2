@@ -9,9 +9,9 @@
 
 ![pics](/pics/Edit_Search_page.png)
 
-![pics](/pics/Record_display)
+![pics](/pics/Record_display.png)
 
-!{pics](/pics/Update_Page)
+!{pics](/pics/Update_Page.png)
 
 ## Setup
 <ol>
