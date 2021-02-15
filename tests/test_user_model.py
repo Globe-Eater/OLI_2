@@ -19,7 +19,7 @@ class UserModelTestCase(unittest.TestCase):
         admin_role = Role(name='Administrator')
         mod_role = Role(name='Moderator')
         worker_role = Role(name='User')
-        db.session.add_all(admin_role, mod_role, worker_role)
+        db.session.add_all([admin_role, mod_role, worker_role])
         db.session.commit()
         self.assertTrue(admin_role.name == 'Administrator')
         self.assertTrue(mod_role.name == 'Moderator')
@@ -32,7 +32,7 @@ class UserModelTestCase(unittest.TestCase):
                    email='mod@example.com', role='Moderator')
         worky = User(username='worky', password='fish', role_id=4,\
                      email='worky@example.com', role='User')
-        db.session.add_all(admin, mod, worky)
+        db.session.add_all([admin, mod, worky])
         db.session.commit()
         self.assertTrue(admin.password == 'cat')
         self.assertTrue(mod.password == 'dog')
@@ -40,8 +40,6 @@ class UserModelTestCase(unittest.TestCase):
 
     def test_password_setter(self):
         u = User(password = 'cat')
-        db.session.add(u)
-        db.session.commit(u)
         self.assertTrue(u.password_hash is not None)
 
     def test_no_password_getter(self):
@@ -55,35 +53,33 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.verify_password('dog'))
 
     def test_password_salts_are_random(self):
-        u = User(password='cat')
-        u2 = User(password-'cat')
+        u = User(password ='cat')
+        u2 = User(password ='cat')
         self.assertTrue(u.password_hash != u2.password_hash)
 
     def test_user_role(self):
-        u = User(email='john@example.com', password='cat')
-        self.assertTrue(u.can(Permission.SEARCH))
-        self.assertTrue(u.can(Permission.ENTRY))
-        self.assertTrue(u.can(Permission.EDIT))
-        self.assertFalse(u.can(Permission.MODERATE))
-        self.assertFalse(u.can(Permission.ADMIN))
+        worky = User(premission='User')
+        self.assertTrue(worky.can(Permission.SEARCH))
+        self.assertTrue(worky.can(Permission.ENTRY))
+        self.assertTrue(worky.can(Permission.EDIT))
+        self.assertFalse(worky.can(Permission.MODERATE))
+        self.assertFalse(worky.can(Permission.ADMIN))
 
     def test_moderator_role(self):
-        r = Role.query.filter_by(name='Moderator').first()
-        u = User(email='john@example.com', password='cat', role=r)
-        self.assertTrue(u.can(Permission.SEARCH))
-        self.assertTrue(u.can(Permission.ENTRY))
-        self.assertTrue(u.can(Permission.EDIT))
-        self.assertTrue(u.can(Permission.MODERATE))
-        self.assertFalse(u.can(Permission.ADMIN))
+        mod = User(premission='Moderator')
+        self.assertTrue(mod.can(Permission.SEARCH))
+        self.assertTrue(mod.can(Permission.ENTRY))
+        self.assertTrue(mod.can(Permission.EDIT))
+        self.assertTrue(mod.can(Permission.MODERATE))
+        self.assertFalse(mod.can(Permission.ADMIN))
 
     def test_administrator_role(self):
-        r = Role.query.filter_by(name='Administrator').first()
-        u = User(email='john@example.com', password='cat', role=r)
-        self.assertTrue(u.can(Permission.SEARCH))
-        self.assertTrue(u.can(Permission.ENTRY))
-        self.assertTrue(u.can(Permission.EDIT))
-        self.assertTrue(u.can(Permission.MODERATE))
-        self.assertTrue(u.can(Permission.ADMIN))
+        admin = User(premission='Administrator')
+        self.assertTrue(admin.can(Permission.SEARCH))
+        self.assertTrue(admin.can(Permission.ENTRY))
+        self.assertTrue(admin.can(Permission.EDIT))
+        self.assertTrue(admin.can(Permission.MODERATE))
+        self.assertTrue(admin.can(Permission.ADMIN))
 
     def test_anonymous_user(self):
         u = AnonymousUser()
