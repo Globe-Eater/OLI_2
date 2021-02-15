@@ -7,6 +7,12 @@
 ## Usage
 <p> This web application is designed to allow users to view historical properites publicly via searching the legacy database. Employees and staff will be allowed a login to add, edit, and delete records from the database as they see fit. </p>
 
+![pics](/pics/Edit_Search_page.png)
+
+![pics](/pics/Record_display)
+
+!{pics](/pics/Update_Record)
+
 ## Setup
 <ol>
   <li>Download Anaconda for virtual enviroment managemnt.</li>
