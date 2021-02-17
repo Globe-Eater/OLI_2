@@ -1,9 +1,10 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, \
     current_user
+from werkzeug.utils import secure_filename 
 from . import auth
 from .. import db
-from ..models import User, hpr
+from ..models import User, hpr, image
 from .forms import LoginForm, MenuForm, EntryForm, EditForm, UpdateForm 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -42,7 +43,9 @@ def menu():
 def data_entry():
     form = EntryForm()
     if form.validate_on_submit():
-        record = hpr(propname=form.propname.data,
+       prop_pic = image(picture=form.image.data)
+       record = hpr(
+             propname=form.propname.data,
              resname=form.resname.data,
              address=form.address.data,
              city=form.city.data,
@@ -101,9 +104,10 @@ def data_entry():
              northing=form.northing.data,
              p_b_c=form.p_b_c.data,
              year_closed=form.year_closed.data)
-        db.session.add(record)
-        db.session.commit()
-        flash('Record Sumbitted.')
+       db.session.add(prop_pic) 
+       db.session.add(record)
+       db.session.commit()
+       flash('Record Sumbitted.')
     return render_template('auth/entry.html', form=form)
 
 @auth.route('/edit_records', methods=['GET', 'POST'])
@@ -125,11 +129,11 @@ def edit_records():
         return render_template('auth/edit.html', form=form, posts=posts) 
     return render_template('auth/edit.html', form=form)
 
-
-@auth.route('/result/<int:post_id>', methods=['GET', 'POST'])
+@auth.route('/results/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def results(post_id):
     post = hpr.query.get_or_404(post_id)
+    pic = image.query.filter_by(prop_id = post_id).all()
     form = EntryForm()
     if form.validate_on_submit():
         post.propname = form.propname.data

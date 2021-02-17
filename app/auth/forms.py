@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField,\
+MultipleFileField, FileField
+from wtforms import validators
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User, hpr
@@ -25,6 +27,7 @@ class EditForm(FlaskForm):
     submit =  SubmitField('Search')
 
 class UpdateForm(FlaskForm):
+    image = FileField('Image File')
     propname = StringField('Property Name:', validators=[DataRequired()])
     resname = StringField('Resource Name:')
     address = StringField('Address:')
@@ -88,6 +91,7 @@ class UpdateForm(FlaskForm):
     submit = SubmitField('Update Record.')
 
 class EntryForm(FlaskForm):
+    image = MultipleFileField('Image File(s):')
     propname = StringField('Property Name:', validators=[DataRequired()])
     resname = StringField('Resource Name:')
     address = StringField('Address:')

@@ -50,7 +50,7 @@ class Role(db.Model):
 
     def add_permission(self, perm):
         if not self.has_permission(perm):
-            self.permission += perm
+            self.permissions += perm
 
     def remove_permission(self, perm):
         if self.has_permission(perm):
@@ -200,6 +200,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class image(db.Model):
+    __tablename__ = 'image'
+    index = db.Column(db.Integer, primary_key=True)
+    picture = db.Column(db.Text)
+    prop_id = db.Column(db.Integer, db.ForeignKey('hpr.objectid'))
 
 class hpr(db.Model):
     __tablename__ = 'hpr'
