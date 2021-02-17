@@ -205,6 +205,7 @@ class image(db.Model):
     index = db.Column(db.Integer, primary_key=True)
     picture = db.Column(db.Text)
     prop_id = db.Column(db.Integer, db.ForeignKey('hpr.objectid'))
+    prop = db.relationship('hpr', foreign_keys=prop_id)
 
 class hpr(db.Model):
     __tablename__ = 'hpr'
