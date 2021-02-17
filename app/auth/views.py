@@ -107,6 +107,8 @@ def data_entry():
        db.session.add(prop_pic) 
        db.session.add(record)
        db.session.commit()
+       prop_pic.prop_id = record.objectid
+       db.session.commit()
        flash('Record Sumbitted.')
     return render_template('auth/entry.html', form=form)
 
@@ -195,7 +197,6 @@ def results(post_id):
         post.northing=form.northing.data
         post.p_b_c=form.p_b_c.data
         post.year_closed=form.year_closed.data
-
 
         db.session.commit()
         flash("Record updated.")
