@@ -4,7 +4,7 @@ from flask_sqlalchemy import get_debug_queries
 from . import main
 from .forms import SearchForm, QueryForm
 from .. import db
-from ..models import Permission, Role, User, hpr
+from ..models import Permission, Role, User, hpr, image
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -34,7 +34,11 @@ def search():
 @main.route('/record/<int:post_id>')
 def search_results(post_id):
     post = hpr.query.get_or_404(post_id)
-    return render_template('record.html', post_id=post.objectid, post=post)
+    image_name = image.query.filter_by(prop_id = post_id)
+    print(image_name)
+    image_storage = "app/static/Image_Storage/"
+    return render_template('record.html', post_id=post.objectid, post=post, 
+                          display_image=image_storage + image_name)
 
 @main.route('/shutdown')
 def server_shutdown():
