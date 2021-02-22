@@ -1,4 +1,5 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash,\
+    Response
 from flask_login import login_user, logout_user, login_required, \
     current_user
 from werkzeug.utils import secure_filename 
@@ -38,78 +39,87 @@ def menu():
             return redirect(url_for('auth.edit_records'))
     return render_template('auth/success.html', form=form)
 
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'jpg'}
+    return '.' in filename and \
+           filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
 @auth.route('/record_entry', methods=['GET', 'POST'])
 @login_required
 def data_entry():
     form = EntryForm()
     if form.validate_on_submit():
-       prop_pic = image(picture=form.image.data)
-       record = hpr(
-             propname=form.propname.data,
-             resname=form.resname.data,
-             address=form.address.data,
-             city=form.city.data,
-             vicinity=form.vicinity.data,
-             countycd=form.countycd.data,
-             lot=form.lot.data,
-             block=form.block.data,
-             platename=form.platename.data,
-             section=form.section.data,
-             township=form.township.data,
-             range=form.range.data,
-             restype=form.restype.data,
-             hist_func=form.hist_func.data,
-             curr_func=form.curr_func.data,
-             areasg_1=form.areasg_1.data,
-             areasg_2=form.areasg_2.data,
-             desc_seg=form.desc_seg.data,
-             doc_source=form.doc_source.data,
-             name_prep=form.name_prep.data,
-             survey_pro=form.survey_pro.data,
-             projectname=form.projectname.data,
-             date_prep=form.date_prep.data,
-             photograph=form.photograph.data,
-             year=form.year.data,
-             arch_build=form.arch_build.data,
-             year_build=form.year_build.data,
-             orig_site=form.orig_site.data,
-             datemoved=form.datemoved.data,
-             fromwhere=form.fromwhere.data,
-             accessible=form.accessible.data,
-             arch_style=form.arch_style.data,
-             other_arch=form.other_arch.data,
-             foun_mat=form.foun_mat.data,
-             roof_type=form.roof_type.data,
-             roof_mat=form.roof_mat.data,
-             wall_mat_1=form.wall_mat_1.data,
-             wall_mat_2=form.wall_mat_2.data,
-             window_typ=form.window_typ.data,
-             window_mat=form.window_mat.data,
-             door_typ=form.door_typ.data,
-             exter_fea=form.exter_fea.data,
-             inter_fea=form.inter_fea.data,
-             dec_detail=form.dec_detail.data,
-             condition=form.condition.data,
-             des_res=form.des_res.data,
-             comments=form.comments.data,
-             placement=form.placement.data,
-             lonr=form.lonr.data,
-             continuation=form.continuation.data,
-             nrdata=form.nrdata.data,
-             date_updated=form.date_updated.data,
-             lat=form.lat.data,
-             long=form.lon.data,
-             utm_zone=form.utm_zone.data,
-             easting=form.easting.data,
-             northing=form.northing.data,
-             p_b_c=form.p_b_c.data,
-             year_closed=form.year_closed.data)
-       db.session.add(prop_pic) 
-       db.session.add(record)
-       db.session.commit()
-       prop_pic.prop_id = record.objectid
-       db.session.commit()
-       flash('Record Sumbitted.')
+        f = form.image.data
+        if f and allowed_file(f.filename):
+            filename = secure_filename(f.filename)
+            form.image.data.save("app/static/Stored_Images/" + filename)
+        pic = image(picture=form.image.data.filename,
+                    prop_id=current_user.id)
+        record = hpr(
+            propname=form.propname.data,
+            resname=form.resname.data,
+            address=form.address.data,
+            city=form.city.data,
+            vicinity=form.vicinity.data,
+            countycd=form.countycd.data,
+            lot=form.lot.data,
+            block=form.block.data,
+            platename=form.platename.data,
+            section=form.section.data,
+            township=form.township.data,
+            range=form.range.data,
+            restype=form.restype.data,
+            hist_func=form.hist_func.data,
+            curr_func=form.curr_func.data,
+            areasg_1=form.areasg_1.data,
+            areasg_2=form.areasg_2.data,
+            desc_seg=form.desc_seg.data,
+            doc_source=form.doc_source.data,
+            name_prep=form.name_prep.data,
+            survey_pro=form.survey_pro.data,
+            projectname=form.projectname.data,
+            date_prep=form.date_prep.data,
+            photograph=form.photograph.data,
+            year=form.year.data,
+            arch_build=form.arch_build.data,
+            year_build=form.year_build.data,
+            orig_site=form.orig_site.data,
+            datemoved=form.datemoved.data,
+            fromwhere=form.fromwhere.data,
+            accessible=form.accessible.data,
+            arch_style=form.arch_style.data,
+            other_arch=form.other_arch.data,
+            foun_mat=form.foun_mat.data,
+            roof_type=form.roof_type.data,
+            roof_mat=form.roof_mat.data,
+            wall_mat_1=form.wall_mat_1.data,
+            wall_mat_2=form.wall_mat_2.data,
+            window_typ=form.window_typ.data,
+            window_mat=form.window_mat.data,
+            door_typ=form.door_typ.data,
+            exter_fea=form.exter_fea.data,
+            inter_fea=form.inter_fea.data,
+            dec_detail=form.dec_detail.data,
+            condition=form.condition.data,
+            des_res=form.des_res.data,
+            comments=form.comments.data,
+            placement=form.placement.data,
+            lonr=form.lonr.data,
+            continuation=form.continuation.data,
+            nrdata=form.nrdata.data,
+            date_updated=form.date_updated.data,
+            lat=form.lat.data,
+            long=form.lon.data,
+            utm_zone=form.utm_zone.data,
+            easting=form.easting.data,
+            northing=form.northing.data,
+            p_b_c=form.p_b_c.data,
+            year_closed=form.year_closed.data)
+        db.session.add(record)
+        db.session.add(pic)
+        db.session.commit()
+        flash('Record Submitted')
+        return redirect(url_for('auth.menu'))
     return render_template('auth/entry.html', form=form)
 
 @auth.route('/edit_records', methods=['GET', 'POST'])
@@ -255,6 +265,13 @@ def results(post_id):
         form.p_b_c.data = post.p_b_c
         form.year_closed.data = post.year_closed
     return render_template('auth/results.html', post=post, form=form)
+
+@auth.route('/image/<int:index>')
+def get_img(index):
+    img = image.query.filter_by(index=index).first()
+    if not img:
+        return 'Img Not Found!', 404
+    return Response(img.picture)
 
 @auth.route('/unconfirmed')
 def unconfirmed():
