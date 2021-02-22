@@ -7,7 +7,8 @@
 <div class="page-header">
     <h1>OLI Record</h1>
 </div>
-<div>
+<div>       
+            <img src="{{ url_for('display_image') }}">
             <div class="post-post_id"><b>Object ID: </b>{{ post.objectid }}</div>
             <div class="post-propname"><b>Property Name: </b>{{ post.propname }}</div>
             <div class="post-resname"><b>Resource Name:  </b>{{ post.resname }}</div>
