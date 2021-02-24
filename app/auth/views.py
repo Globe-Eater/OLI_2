@@ -54,7 +54,7 @@ def data_entry():
             filename = secure_filename(f.filename)
             form.image.data.save("app/static/Stored_Images/" + filename)
         pic = image(picture=form.image.data.filename,
-                    prop_id=current_user.id)
+                    user_id=current_user.id)
         record = hpr(
             propname=form.propname.data,
             resname=form.resname.data,
@@ -117,6 +117,8 @@ def data_entry():
             year_closed=form.year_closed.data)
         db.session.add(record)
         db.session.add(pic)
+        db.session.flush()
+        pic.prop_id = record.objectid
         db.session.commit()
         flash('Record Submitted')
         return redirect(url_for('auth.menu'))
