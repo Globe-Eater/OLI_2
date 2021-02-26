@@ -31,14 +31,17 @@ def search():
          return render_template('query.html', form=form, posts=posts)
     return render_template('query.html', form=form)
 
-@main.route('/record/<int:post_id>')
+@main.route('/record/<int:post_id>', methods=['GET', 'POST'])
 def search_results(post_id):
     post = hpr.query.get_or_404(post_id)
-    image_name = image.query.filter_by(prop_id = post_id)
-    print(image_name)
-    image_storage = "app/static/Image_Storage/"
+    image_name = image.query.filter_by(prop_id=post_id).first()
+    if image_name == None:
+        image_storage = None
+    elif image_name == True:
+        image_name = image.query.filter_by(prop_id=post_id).first()    
+        image_storage = "../static/Stored_Images/" + image_name.picture
     return render_template('record.html', post_id=post.objectid, post=post, 
-                          display_image=image_storage + image_name)
+                          display_image=image_storage)
 
 @main.route('/shutdown')
 def server_shutdown():
