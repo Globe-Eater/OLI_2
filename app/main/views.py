@@ -27,6 +27,9 @@ def search():
               posts = hpr.query.filter_by(address=form.address.data)
          elif form.city.data:
               posts = hpr.query.filter_by(city=form.city.data)
+         else:
+             flash("Please enter in data.")
+             return render_template('query.html', form=form)
          flash("Query Submitted.")
          return render_template('query.html', form=form, posts=posts)
     return render_template('query.html', form=form)
