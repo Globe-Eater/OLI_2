@@ -148,6 +148,12 @@ def edit_records():
 def results(post_id):
     post = hpr.query.get_or_404(post_id)
     pic = image.query.filter_by(prop_id = post_id).all()
+    image_name = image.query.filter_by(prop_id=post_id).first()
+    if image_name == None:
+        image_storage = None
+    elif image_name == True:
+        image_name = image.query.filter_by(prop_id=post_id).first()
+        image_storage = "../static/Stored_Images/" + image_name.picture
     form = EntryForm()
     if form.validate_on_submit():
         post.propname = form.propname.data
@@ -209,10 +215,10 @@ def results(post_id):
         post.northing=form.northing.data
         post.p_b_c=form.p_b_c.data
         post.year_closed=form.year_closed.data
-
         db.session.commit()
         flash("Record updated.")
-        return redirect(url_for('auth.results', post_id=post.objectid, form=form))
+        return redirect(url_for('auth.results', post_id=post.objectid, form=form,
+                               display_image=image_storage))
     elif request.method == 'GET':
         form.propname.data = post.propname
         form.resname.data = post.resname
@@ -266,7 +272,8 @@ def results(post_id):
         form.northing.data = post.northing
         form.p_b_c.data = post.p_b_c
         form.year_closed.data = post.year_closed
-    return render_template('auth/results.html', post=post, form=form)
+    return render_template('auth/results.html', post=post, form=form,
+                           display_image=image_storage)
 
 @auth.route('/image/<int:index>')
 def get_img(index):
